@@ -4,6 +4,8 @@ import os
 import configparser
 from model.dm_controller import DmController
 from model.mouse_tracker import MouseTracker
+from model.image_manager import ImageManager
+
 
 def setup_logging():
     """配置日志系统"""
@@ -51,10 +53,28 @@ def main():
 
     logger.info("大漠插件版本: %s", dm_controller.version)
 
-    # 初始化鼠标跟踪
     try:
+        # 鼠标
         mouse_tracker = MouseTracker(dm_controller.dm)
-        mouse_tracker.start_tracking()
+        # mouse_tracker.set_sim_mode(0)
+        # mouse_tracker.set_mouse_speed(6)
+        # print(mouse_tracker.get_cursor_position())
+        # mouse_tracker.move_to(1000, 1000)
+        # print(mouse_tracker.get_cursor_position())
+        # mouse_tracker.start_tracking()
+        # 图色
+        # image_manager = ImageManager(dm_controller.dm)
+        # image_manager.set_path("./screenshots")  # 设置截图保存目录
+        print(dm_controller.dm.SetPath(str(os.path.join(os.getcwd(), "screenshots"))))
+        print(dm_controller.dm.CaptureJpg(0, 0, 1024, 768, "desktop.jpg", 85))
+        print(dm_controller.dm.MoveTo(2920, 600))
+        # result = image_manager.capture_jpg(
+        #     x1=0, y1=0, x2=1024, y2=768,
+        #     filename="desktop.jpg",
+        #     quality=85
+        # )
+        # if result == 1:
+        #     logger.info("截图操作成功")
     except KeyboardInterrupt:
         logger.info("程序正常退出")
 
